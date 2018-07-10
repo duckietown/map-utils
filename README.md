@@ -1,6 +1,6 @@
 # **Random generation of Duckietown maps**
 ___
-[Duckietown](http://duckietown.org/) maps to be used in the [Gym-Duckietown](https://github.com/duckietown/gym-duckietown).
+Semi-randomly generates [Duckietown](http://duckietown.org/) maps to be used in the [Gym-Duckietown](https://github.com/duckietown/gym-duckietown).
 
 ## Introduction
 This repository uses three python files to generate a random
