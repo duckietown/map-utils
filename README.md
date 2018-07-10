@@ -44,11 +44,11 @@ to 2D array of tiles selected from the following tile types:
 In order to run this program you must have a working installation of Python 3.5+.
 
 ## Usage:
-This program can by entering the following in a terminal while in the map-utils directory:
+This program can be run by entering the following in a terminal while in the map-utils directory:
 ```
 ./map_output_beta_1 <height> <width> --no_intersections --density <valid string> --no_border
 ```
-###Breakdown of the parameters
+### Breakdown of the parameters
 Positional (required) arguments:
 * `height` : an `int` describing the height of the map
     - height must be at least 3
