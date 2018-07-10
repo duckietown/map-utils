@@ -1,5 +1,5 @@
 # **Random generation of Duckietown maps**
-___
+
 Semi-randomly generates [Duckietown](http://duckietown.org/) maps to be used in the [Gym-Duckietown](https://github.com/duckietown/gym-duckietown).
 
 ## Introduction
