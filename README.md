@@ -57,7 +57,7 @@ Positional (required) arguments:
 
 Optional arguments:
 * `--no_intersections` or `-ni` : if specified, the map generated will have no intersections (AKA a *closed course*). Otherwise, intersections will be allowed.
-* `--density` : specifies how densly packed the road network will be
+* `--density` : specifies how densely packed the road network will be
     - valid input strings:
         - `"any"`
         - `"sparse"`
