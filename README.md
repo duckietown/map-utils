@@ -37,8 +37,6 @@ undirected cyclic graph, which when exported to *map_output_beta_1.py* is transl
 
 3. ***populate_beta_1.py (NOT YET WRITTEN)*** populates the map with objects
 
-<p align="center"><img src="images/populate_photo.png"></p>
-
 * Objects selected from the following object types:
 
 >- barrier
@@ -56,7 +54,6 @@ undirected cyclic graph, which when exported to *map_output_beta_1.py* is transl
 
 4. ***map_output_beta_1.py*** writes the objects that were generated to output.yaml
 
-<p align="center"><img src="images/object_yaml.png"></p>
 
 ## Installation:
 
