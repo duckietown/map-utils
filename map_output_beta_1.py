@@ -1,6 +1,3 @@
-# July 10, 2018
-# adamsigal on GitHub and in real life
-# Part of the Duckietown project: https://www2.duckietown.org/
 import sys
 import random
 import map_gen_beta_1
@@ -146,10 +143,10 @@ def group_empties(tile_grid, height, width, i, j, groups_type):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Generate random map using height, \
-    width, no_intersections (bool) (optional), density string (optional), no_border (bool) (optional)')
-    parser.add_argument('height', type=int)
+    parser = argparse.ArgumentParser(description='Generate random map using width, \
+    height, no_intersections (bool) (optional), density string (optional), no_border (bool) (optional)')
     parser.add_argument('width', type=int)
+    parser.add_argument('height', type=int)
     parser.add_argument('--no_intersections', '-ni', action="store_true")
     parser.add_argument('--density', help="options: 'any', 'sparse', 'medium', 'dense'. \n \
                          Note: density not taken into account in maps under 8x8 in size")
