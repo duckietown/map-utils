@@ -4,7 +4,7 @@ Semi-randomly generates [Duckietown](http://duckietown.org/) maps to be used in 
 
 ## Introduction
 This repository uses three python files to generate a random
-map within the official [Duckietown Specifications](https://docs.duckietown.org/opmanual_duckietown/out/duckietown_specs.html) (section 2). The files are:
+map within the official [Duckietown Specifications](https://docs.duckietown.org/opmanual_duckietown/out/duckietown_specs.html) (section 2). 
 
 #### Generation phases
 1. Generation of the map by * ***map_gen_beta_1.py*** : Generates a road system using a backtracking algorithm
