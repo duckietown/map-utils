@@ -99,7 +99,7 @@ Outputs a map with dimensions 7x5 with no intersections and no border:
 
 ___
 ```
-./map_output_beta_1 7 5 --density "dense"
+./map_output_beta_1 10 10 --density "dense"
 ```
 Outputs a *dense* map with dimensions 10x10:
 
