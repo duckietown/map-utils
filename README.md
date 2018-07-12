@@ -109,8 +109,8 @@ Outputs a *dense* map with dimensions 10x10:
 
 ## Known bugs & problems
 
-1. Occasionally, the map generation will loop for an inordinately long time. To deal with this, a 2-second timer is placed around the backtracking section of the code. If the generation exceeds it, the growth is stopped and the function *trim()* is called. In these cases, maps are usually very close to being finished and valid, so this function will *trim* any stretches of road leading nowhere, as the goal is to have a completely cyclical road with no dead ends.
-2. The *density* parameter does not scale well with size. It is currently calibrated to a 10x10 map. Due to the nature of smaller maps, where variation in density is very limited, any map under 7x7 in dimensions simply ignores any density entered, for the time being.
+1. The *density* parameter does not scale well with size. It is currently calibrated to a 10x10 map. Due to the nature of smaller maps, where variation in density is very limited, any map under 7x7 in dimensions simply ignores any density entered, for the time being.
+2. An invalid map was *once* found to be generated. This is to be dealt with at a future date as it is so rare. 
 
 ## Troubleshooting
 This program is in beta, so if you run into any bugs, please [open an issue](https://github.com/duckietown/map-utils/issues)

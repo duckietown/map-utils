@@ -3,7 +3,6 @@
 # Part of the Duckietown project: https://www2.duckietown.org/
 import random
 import sys
-import time
 import math
 #========================= GLOBAL VARS / SETUP ================================
 MAP = []
@@ -424,14 +423,11 @@ def print_stack():
 #==============================================================================
 #================================= GROW =======================================
 def grow():
-    start = time.time()
-    elapsed = 0
 
     backtracked = False
-    # TODO: could 2 seconds be too short for some computers?
-    while (len(ONES) > 0) and (elapsed < 2):
-        print("time elapsed: {}".format(elapsed))
-
+    ctr = 0
+    while (len(ONES) > 0) and (ctr < 10000):
+        ctr += 1
         # If the last step created a deg 3 node when the map
         # is to have NO INTERSECTIONS, then we backtrack
         if (not HAS_INTERSECTIONS) and (len(scan_for_degx(3)) > 0):
@@ -439,14 +435,12 @@ def grow():
             if (check_coverage(len(MAP), len(MAP[0]))):
                 trim()
                 print("\n")
-                elapsed = time.time() - start
                 continue
             # otherwise, backtrack to find better solution
             else:
                 backtrack()
                 backtracked = True
                 print("\n")
-                elapsed = time.time() - start
                 continue
 
         if (backtracked):
@@ -463,7 +457,6 @@ def grow():
                     backtrack()
                     backtracked = True
                     print("\n")
-                    elapsed = time.time() - start
                     continue
         else:
             next = MAP[ONES[-1][1]][ONES[-1][0]]
@@ -491,7 +484,6 @@ def grow():
                         backtracked = True
             sys.stdout.flush()
         print("\n")
-        elapsed = time.time() - start
 
     # if generation has taken more than 2 seconds, we "trim" the network;
     # remove elements of ONES until map is valid
@@ -992,7 +984,7 @@ class Node():
 
 def main():
 
-    create_map(8, 4, False, "any")
+    create_map(10, 10, True, "any")
 
 
 if __name__ == "__main__":
