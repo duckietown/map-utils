@@ -96,7 +96,9 @@ Optional arguments:
     - this will have no effect if *object density* is not specified, as it is *'empty'* by default
 
 #### Examples
+
 **Ex. 1**
+
 ```
 ./map_output_beta_2 7 5 --no_border --obj_density "medium" --road_objects
 ```
@@ -244,7 +246,9 @@ Outputs a *dense* map with dimensions 10x10 with no objects:
 
 <details>
 <summary><b>output.yaml</b></summary>
+
 ```yaml
+
 tiles:
 - [asphalt,       asphalt,       asphalt,       asphalt,       asphalt,       asphalt,       asphalt,       asphalt,       asphalt,       asphalt,       asphalt,       asphalt]
 - [asphalt,       curve_right/N, straight/W,    3way_right/E,  straight/W,    straight/W,    straight/W,    straight/W,    curve_left/N,  grass,         grass,         asphalt]
@@ -281,6 +285,7 @@ Outputs a 5x5 map with a border, and with no intersections and sparse object den
 <summary><b>output.yaml</b></summary>
 
 ```yaml
+
 tiles:
 - [grass,         grass,         grass,         grass,         grass,         grass,         grass]
 - [grass,         grass,         grass,         curve_right/N, straight/W,    curve_left/N,  grass]
