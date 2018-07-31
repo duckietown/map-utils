@@ -96,7 +96,6 @@ def create_map(height, width, has_intersections, density):
             raise ValueError("Map too sparse or dense")
 
         coverage = check_coverage(height, width)
-        print("check_coverage() result: {}".format(coverage))
         if (not coverage):
             raise ValueError("Insufficient map coverage")
 
@@ -112,7 +111,6 @@ def create_map(height, width, has_intersections, density):
 
 def seed_map(height, width):
     global MAP
-    print("Entering seed")
 
     poss_seeds = list(POSSIBLE_STEPS)
     # maps smaller than 7 width or height not seeded with intersections;
@@ -205,12 +203,12 @@ def seed_map(height, width):
         rand_x = random.randint(0, width - 1)
         rand_y = random.randint(0, height - 1)
 
-        print("original: ({}, {})".format(rand_x, rand_y))
+        #print("original: ({}, {})".format(rand_x, rand_y))
 
         # "N" curve is defined as: _|_ ; turned 90 degrees clockwise subsequently
         positions = ["N", "E", "S", "W"]
         choice = positions[random.randint(0, len(positions) - 1)]
-        print("choice: {}".format(choice))
+        #print("choice: {}".format(choice))
 
         if (rand_x<=1) and (choice != "E"):
             rand_x += 2 - rand_x
@@ -221,7 +219,7 @@ def seed_map(height, width):
             rand_y += 2 - rand_y
         elif (rand_y>=height-2) and (choice != "N"):
             rand_y -= 2 - ((height-1) - rand_y)
-        print("updated: ({}, {})".format(rand_x, rand_y))
+        #print("updated: ({}, {})".format(rand_x, rand_y))
 
         if (choice == "N"):
             MAP[rand_y][rand_x].connect("N")
@@ -257,7 +255,7 @@ def seed_map(height, width):
         rand_x = random.randint(0, width - 1)
         rand_y = random.randint(0, height - 1)
 
-        print("original: ({}, {})".format(rand_x, rand_y))
+        #print("original: ({}, {})".format(rand_x, rand_y))
 
         if (rand_x <= 1):
             rand_x += 2 - rand_x
@@ -269,7 +267,7 @@ def seed_map(height, width):
         elif (rand_y >= height - 2):
             rand_y -= 2 - ((height-1) - rand_y)
 
-        print("random seed coordinates: ({}, {})".format(rand_x, rand_y))
+        #print("random seed coordinates: ({}, {})".format(rand_x, rand_y))
         MAP[rand_y][rand_x].connect("N")
         MAP[rand_y][rand_x].connect("E")
         MAP[rand_y][rand_x].connect("S")
@@ -327,7 +325,6 @@ def check_coverage(height, width):
         min = 3
     quadrant_height = int( math.ceil(height / 4.0) )
     quadrant_width  = int( math.ceil(width  / 4.0) )
-    print(height)
 
     # the start and end indices for the 4 quadrants
     indices = [(0,                      quadrant_height, 0,                      quadrant_width),
@@ -434,13 +431,13 @@ def grow():
             # if map is well covered, trimming is likely to produce a good map
             if (check_coverage(len(MAP), len(MAP[0]))):
                 trim()
-                print("\n")
+                #print("\n")
                 continue
             # otherwise, backtrack to find better solution
             else:
                 backtrack()
                 backtracked = True
-                print("\n")
+                #print("\n")
                 continue
 
         if (backtracked):
@@ -456,7 +453,7 @@ def grow():
                 if len(options_left) == 0:
                     backtrack()
                     backtracked = True
-                    print("\n")
+                    #print("\n")
                     continue
         else:
             next = MAP[ONES[-1][1]][ONES[-1][0]]
@@ -466,24 +463,24 @@ def grow():
         while (len(options_left) > 0):
             rand_step = options_left[random.randint(0, len(options_left)-1)]
             if (is_safe(next,rand_step, rel_dirs)):
-                print("Taking a step: {}".format(rand_step))
+                #print("Taking a step: {}".format(rand_step))
                 options_left.remove(rand_step)
                 STACK.append([next, rand_step, rel_dirs, options_left])
                 prev_cxns = step(next, rand_step, rel_dirs)
                 STACK[-1].append(prev_cxns)
                 break
             else:
-                print("No legal steps possible")
+                #print("No legal steps possible")
                 options_left.remove(rand_step)
                 if (len(options_left) == 0):
                     if (STACK[-1][1] == ""):
                         raise ValueError("ERROR: Trying to backtrack from NO STEP")
                     else:
                         backtrack()
-                        print("ONES after backtrack: {}".format(ONES))
+                        #print("ONES after backtrack: {}".format(ONES))
                         backtracked = True
             sys.stdout.flush()
-        print("\n")
+        #print("\n")
 
     # if generation has taken more than 2 seconds, we "trim" the network;
     # remove elements of ONES until map is valid
@@ -502,7 +499,7 @@ def backtrack():
     last_step = top_stack[1]
     rel_dirs = top_stack[2]
     prev_cxns = top_stack[4]
-    print("backtracking from last step: {} ({}, {})".format(last_step, node.x, node.y))
+    #print("backtracking from last step: {} ({}, {})".format(last_step, node.x, node.y))
 
     if (last_step == "straight"):
         node.disconnect(rel_dirs["f"])
