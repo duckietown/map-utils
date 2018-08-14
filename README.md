@@ -112,7 +112,7 @@ Optional arguments:
         - `"dense"`
 
 * `--hard-mode` :
-    - "Normal mode" (default): no objects on tiles adjacent to an *intersection* or adjacent to a *curve* already containing an object
+    - "Normal mode" (default): no objects on tiles adjacent to a *curve* already containing an object, or adjacent to an *intersection*
     - **Hard mode**: objects on any tile except for intersections
 
 #### Examples
