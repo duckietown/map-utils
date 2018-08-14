@@ -3,18 +3,18 @@
 Semi-randomly generates [Duckietown](http://duckietown.org/) maps to be used in the [Gym-Duckietown](https://github.com/duckietown/gym-duckietown).
 
 ## Introduction
-This repository uses two python files to generate a random
+In this repository, ***generator.py*** generates a random
 map within the official [Duckietown Specifications](https://docs.duckietown.org/opmanual_duckietown/out/duckietown_specs.html) (section 2).
 
 #### Generation phases
-1. Generation of the map by ***map_gen_beta_2.py*** : Generates a road system using a backtracking algorithm
-according to the parameters entered in *map_output_beta_2* (terminal output shown):
+1. Generation of the road network using a backtracking algorithm
+according to the parameters entered in *map_output* (terminal output shown):
 
 <p align="center"><img src="images/small_terminal.png"></p>
 
 * Note: in the terminal, each node is marked by its degree
 * This file creates an
-undirected cyclic graph, which when exported to *map_output_beta_2.py* is translated to a 2D array of tiles selected from the following tile types:
+undirected cyclic graph, which when exported to *map_output.py* is translated to a 2D array of tiles selected from the following tile types:
 
 ><p align="center"><img width="433" height="300" src="images/tiles.png"></p>
 >
@@ -31,11 +31,11 @@ undirected cyclic graph, which when exported to *map_output_beta_2.py* is transl
 >
 >*(Taken from [Gym-Duckietown's README](https://github.com/duckietown/gym-duckietown/blob/master/README.md))*
 
-2. ***map_output_beta_2.py*** writes road network to yaml file *(output.yaml)* using the map format described in [Gym-Duckietown's README](https://github.com/duckietown/gym-duckietown/blob/master/README.md):
+2. Writing of the road network to yaml file *(output.yaml)* using the map format described in [Gym-Duckietown's README](https://github.com/duckietown/gym-duckietown/blob/master/README.md):
 
 <p align="center"><img src="images/small_yaml.png"></p>
 
-3. ***map_output_beta_2*** populates the map with objects
+3. Population of the map with objects
 
 * Objects selected from the following object types:
 
@@ -52,7 +52,7 @@ undirected cyclic graph, which when exported to *map_output_beta_2.py* is transl
 >
 >*(Taken from [Gym-Duckietown's README](https://github.com/duckietown/gym-duckietown/blob/master/README.md))*
 
-4. ***map_output_beta_2.py*** writes the objects that were generated to output.yaml
+4. Writing of the objects that were generated to output.yaml
 
 
 ## Installation:
@@ -63,20 +63,30 @@ In order to run this program you must have a working installation of Python 3.5+
 
 This program can be run by entering the following in a terminal while in the map-utils directory:
 ```
-./map_output_beta_1 <width> <height> --no_intersections --map_density <valid string> --no_border --obj_density <valid string> --road_objects
+./generator --height <height> --width <width> --no-intersections --map-density <valid string> --no-border --side-objects <valid string> --road-objects <valid string> --hard-mode
+```
+or
+```
+./generator --map-name <file.yaml> --no-intersections --map-density <valid string> --no-border --side-objects <valid string> --road-objects <valid string> --hard-mode
 ```
 
 #### Breakdown of the parameters
 
-Positional (required) arguments:
-* `width` : an `int` describing the width of the map
+Required arguments:
+
+* `--map-name` : a *.yaml* file specifying a map on which to place objects
+    - must adhere to the Duckietown simulator map format (see [gym-duckietown](https://github.com/duckietown/gym-duckietown))
+* `--width` : an `int` describing the width of the map
     - width must be at least 3
-* `height` : an `int` describing the height of the map
+    - this argument is required if a file is not specified with `--map-name`
+* `--height` : an `int` describing the height of the map
     - height must be at least 3
+    - this argument is required if a file is not specified with `--map-name`
 
 Optional arguments:
-* `--no_intersections` or `-ni` : if specified, the map generated will have no intersections (AKA a *closed course*). Otherwise, intersections will be allowed.
-* `--map_density` or `-md` : specifies how densely packed the road network will be
+
+* `--no-intersections` or `-ni` : if specified, the map generated will have no intersections (AKA a *closed course*). Otherwise, intersections will be allowed.
+* `--map-density` or `-md` : specifies how densely packed the road network will be
     - valid input strings:
         - `"any"` (default)
         - `"sparse"`
@@ -84,23 +94,33 @@ Optional arguments:
         - `"dense"`
     - if nothing is inputted, or the string is invalid, the map will be of density `"any"`
     - if the map is under a size of 7x7, any density entered will be ignored
-* `--no_border` or `-nb` : if specified, the map generated will not have a border when output. Otherwise, it will be output with a border of empty tiles (grass, floor, or asphalt, chosen at random).
-* `--obj-density` or `-od` : specifies the density of objects to be placed on the map
+* `--no-border` or `-nb` : if specified, the map generated will not have a border when output. Otherwise, it will be output with a border of empty tiles (grass, floor, or asphalt, chosen at random).
+* `--side-objects` or `-so` : specifies the density of objects on **non-driveable tiles**
+    - valid input strings:
+        - `"empty"`
+        - `"any"`
+        - `"sparse"`
+        - `"medium"` (default)
+        - `"dense"`
+
+* `--road-objects` or `-ro` : specifies the density of objects on **driveable tiles**
     - valid input strings:
         - `"empty"` (default)
         - `"any"`
         - `"sparse"`
         - `"medium"`
         - `"dense"`
-* `--road_objects` or `-ro` : if specified, the map generated will allow objects to be placed on the road (by default the roads are clear)
-    - this will have no effect if *object density* is not specified, as it is *'empty'* by default
+
+* `--hard-mode` :
+    - "Normal mode" (default): no objects on tiles adjacent to an *intersection* or adjacent to a *curve* already containing an object
+    - **Hard mode**: objects on any tile except for intersections
 
 #### Examples
 
 **Ex. 1**
 
 ```
-./map_output_beta_2 7 5 --no_border --obj_density "medium" --road_objects
+./map_output 7 5 --no-border --side-objects "medium" --road_objects "medium"
 ```
 Outputs a map with dimensions 7x5 with no border medium object density including on roads:
 
@@ -238,7 +258,7 @@ ___
 **Ex. 2**
 
 ```
-./map_output_beta_2 10 10 --map_density "dense"
+./map_output --height 10 --width 10 --map-density "dense"
 ```
 Outputs a *dense* map with dimensions 10x10 with no objects:
 
@@ -275,7 +295,7 @@ ___
 **Ex. 3**
 
 ```
-./map_output_beta_2 5 5 --no_intersections --obj_density "sparse"
+./map_output 5 5 --no-intersections --side-objects "sparse" --road-objects "sparse"
 ```
 Outputs a 5x5 map with a border, and with no intersections and sparse object density, with none on the road:
 
@@ -355,8 +375,6 @@ ___
 ## Known bugs & problems
 
 1. The *density* parameter does not scale well with size. It is currently calibrated to a 10x10 map. Due to the nature of smaller maps, where variation in density is very limited, any map under 7x7 in dimensions simply ignores any density entered, for the time being.
-2. An invalid map was *once* found to be generated. This is to be dealt with at a future date as it is so rare.
-3. Non-intersection signs do not appear on *clear road* maps
 
 ## Troubleshooting
 This program is in beta, so if you run into any bugs, please [open an issue](https://github.com/duckietown/map-utils/issues)
