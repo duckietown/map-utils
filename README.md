@@ -76,6 +76,9 @@ Required arguments:
 
 * `--map-name` : a *.yaml* file specifying a map on which to place objects
     - must adhere to the Duckietown simulator map format (see [gym-duckietown](https://github.com/duckietown/gym-duckietown))
+
+***OR***
+
 * `--width` : an `int` describing the width of the map
     - width must be at least 3
     - this argument is required if a file is not specified with `--map-name`
@@ -114,6 +117,47 @@ Optional arguments:
 * `--hard-mode` :
     - "Normal mode" (default): no objects on tiles adjacent to a *curve* already containing an object, or adjacent to an *intersection*
     - **Hard mode**: objects on any tile except for intersections
+* `--sign-output` : outputs ***sign_output.yaml***, a feature-based map of signs to be used for navigation
+    - `ID` represents april tag IDs according to the [signage specifications](http://docs.duckietown.org/opmanual_duckietown/out/signage.html)
+
+<details>
+<summary><b>ex. <i>sign_output.yaml</i></b></summary>
+
+```yaml
+signs:
+
+- kind: sign_yield
+  pos: [5.45, 1.0]
+  rotate: 132.03
+  ID: 2
+
+- kind: sign_yield
+  pos: [2.81, 2.0]
+  rotate: 33.02
+  ID: 2
+
+- kind: sign_pedestrian
+  pos: [5.4, 1.0]
+  rotate: 45.49
+  ID: 12
+
+- kind: sign_pedestrian
+  pos: [1.83, 3.0]
+  rotate: 0.0
+  ID: 12
+
+- kind: sign_pedestrian
+  pos: [1.83, 4.0]
+  rotate: 180.0
+  ID: 12
+```
+
+</details>
+<br/>
+
+* `--matrix-output` : outputs ***adj_matrix.npz***, a file containing:
+    - **out**: a NumPy adjacency matrix of the generated road network
+    - **dims**: a tuple of `(height, width)` for reconversion into a regular node graph or other representations
 
 #### Examples
 
