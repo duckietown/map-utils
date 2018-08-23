@@ -63,11 +63,11 @@ In order to run this program you must have a working installation of Python 3.5+
 
 This program can be run by entering the following in a terminal while in the map-utils directory:
 ```
-./generator --height <height> --width <width> --no-intersections --map-density <valid string> --no-border --side-objects <valid string> --road-objects <valid string> --hard-mode
+./generator --height <height> --width <width> --no-intersections --map-density <valid string> --no-border --side-objects <valid string> --road-objects <valid string> --hard-mode --sign-output --matrix-output
 ```
 or
 ```
-./generator --map-name <file.yaml> --no-intersections --map-density <valid string> --no-border --side-objects <valid string> --road-objects <valid string> --hard-mode
+./generator --map-name <file.yaml> --no-intersections --map-density <valid string> --no-border --side-objects <valid string> --road-objects <valid string> --hard-mode --sign-output --matrix-output
 ```
 
 #### Breakdown of the parameters
