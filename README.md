@@ -1,10 +1,10 @@
-# **Random generation of Duckietown maps**
+# **Map utilities**
 
-Semi-randomly generates [Duckietown](http://duckietown.org/) maps to be used in the [Gym-Duckietown](https://github.com/duckietown/gym-duckietown).
+This repository contains ***generator.py*** which generates maps and ***pathfinder.py*** ([Jump to](#path-finder)) which allows users to implement a path finding alorithm on a generated map.
 
-## Introduction
-In this repository, ***generator.py*** generates a random
-map within the official [Duckietown Specifications](https://docs.duckietown.org/opmanual_duckietown/out/duckietown_specs.html) (section 2).
+# The Generator
+***generator.py*** generates a random
+map within the official [Duckietown Specifications](https://docs.duckietown.org/opmanual_duckietown/out/duckietown_specs.html) (section 2) to be used in [Gym-Duckietown](https://github.com/duckietown/gym-duckietown).
 
 #### Generation phases
 1. Generation of the road network using a backtracking algorithm
@@ -57,17 +57,17 @@ undirected cyclic graph, which when exported to *map_output.py* is translated to
 
 ## Installation:
 
-In order to run this program you must have a working installation of Python 3.5+. The output is meant to be used with the [gym-duckietown simulator](https://github.com/duckietown/gym-duckietown), which has its own set of dependencies.
+In order to run this program you must have a working installation of Python 2.7+. The output is meant to be used with the [gym-duckietown simulator](https://github.com/duckietown/gym-duckietown), which has its own set of dependencies.
 
 ## Usage:
 
 This program can be run by entering the following in a terminal while in the map-utils directory:
 ```
-./generator --height <height> --width <width> --no-intersections --map-density <valid string> --no-border --side-objects <valid string> --road-objects <valid string> --hard-mode --sign-output --matrix-output
+./generator.py --height <height> --width <width> --no-intersections --map-density <valid string> --no-border --side-objects <valid string> --road-objects <valid string> --hard-mode --sign-output --matrix-output
 ```
 or
 ```
-./generator --map-name <file.yaml> --no-intersections --map-density <valid string> --no-border --side-objects <valid string> --road-objects <valid string> --hard-mode --sign-output --matrix-output
+./generator.py --map-name <file.yaml> --no-intersections --map-density <valid string> --no-border --side-objects <valid string> --road-objects <valid string> --hard-mode --sign-output --matrix-output
 ```
 
 #### Breakdown of the parameters
@@ -164,7 +164,7 @@ signs:
 **Ex. 1**
 
 ```
-./map_output 7 5 --no-border --side-objects "medium" --road_objects "medium"
+./generator.py 7 5 --no-border --side-objects "medium" --road_objects "medium"
 ```
 Outputs a map with dimensions 7x5 with no border medium object density including on roads:
 
@@ -302,7 +302,7 @@ ___
 **Ex. 2**
 
 ```
-./map_output --height 10 --width 10 --map-density "dense"
+./generatory.py --height 10 --width 10 --map-density "dense"
 ```
 Outputs a *dense* map with dimensions 10x10 with no objects:
 
@@ -339,7 +339,7 @@ ___
 **Ex. 3**
 
 ```
-./map_output 5 5 --no-intersections --side-objects "sparse" --road-objects "sparse"
+./generator.py 5 5 --no-intersections --side-objects "sparse" --road-objects "sparse"
 ```
 Outputs a 5x5 map with a border, and with no intersections and sparse object density, with none on the road:
 
@@ -424,3 +424,61 @@ ___
 This program is in beta, so if you run into any bugs, please [open an issue](https://github.com/duckietown/map-utils/issues)
 
 # Have fun generating!
+
+
+___
+
+# Path-finder
+
+***pathdfinder.py*** takes an adjacency matrix output by *generator.py* *(adj_matrix.npz)*, a startpoint, and an endpoint, and outputs a *path.yaml* containing the path calculated. This path is determined by the algorithm that the user decides to implement. No algorithm is implemented by default.
+
+## How it works
+
+1. *adj_matrix.npz* is loaded into the program
+2. it is converted into an adjacency matrix where nodes are intersections, the startpoint, and the endpoint
+3. a path finding algorithm **implemented by the user** is applied
+    * by default a static placeholder path is present
+4. The a visual representation of the path chosen is output to *path.yaml*
+
+
+## Usage:
+
+This program can be run by entering the following in a terminal while in the map-utils directory:
+```
+./pathfinder.py <file> <start_x> <start_y> <end_x> <end_y>
+```
+
+#### Breakdown of the parameters
+All arguments are requred.
+
+* `file` : the file path to *adj_matrix.npz* output by *generator.py*
+* `start_x` : the x-coordinate of the startpoint for pathfinding. Together with `start_y` it must refer to a tile that is part of the road network.
+* `start_y` : the y-coordinate of the startpoint for pathfinding. Together with `start_x` it must refer to a tile that is part of the road network.
+* `end_x` : the x-coordinate of the endpoint for pathfinding. Together with `end_y` it must refer to a tile that is part of the road network.
+* `end_y` : the y-coordinate of the endpoint for pathfinding. Together with `end_x` it must refer to a tile that is part of the road network.
+
+
+#### Example
+
+```
+./pathfinder.py adj_matrix.npz 2 2 5 6
+```
+
+<details>
+<summary><b>path.yaml:</b></summary>
+
+```
+0 0 0 1 1 1 1 0
+0 0 0 1 0 0 1 0
+0 0 S 1 0 0 1 0
+0 0 0 0 0 0 1 0
+0 0 0 0 0 0 1 0
+0 0 0 0 0 0 1 0
+0 0 0 0 0 X 1 0
+0 0 0 0 0 0 0 0
+```
+
+* **S** is the startpoint
+* **X** is the endpoint
+* **1** is used for traversed tiles
+</details>
